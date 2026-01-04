@@ -30,10 +30,7 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 
-if DEBUG:
-    ALLOWED_HOSTS = []
-else:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app", ".onrender.com", "hcdc-partnership.onrender.com"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app", ".onrender.com", "hcdc-partnership.onrender.com"]
 
 
 # Corsheaders settings
