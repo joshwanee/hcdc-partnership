@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const CollegeAdminSidebar = ({ sidebarOpen, setSidebarOpen, darkMode, setDarkMode }) => {
+const CollegeAdminSidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const links = [
     { name: "Dashboard", path: "/college/dashboard" },
     { name: "Departments", path: "/college/departments" },
@@ -37,18 +37,7 @@ const CollegeAdminSidebar = ({ sidebarOpen, setSidebarOpen, darkMode, setDarkMod
         ))}
       </div>
 
-      {/* Dark mode toggle */}
-      <div className="p-4">
-        {darkMode ? (
-          <button className="p-2 bg-black text-white rounded" onClick={() => setDarkMode(false)}>
-            ☀️
-          </button>
-        ) : (
-          <button className="p-2 bg-black text-white rounded" onClick={() => setDarkMode(true)}>
-            🌙
-          </button>
-        )}
-      </div>
+      {/* (Theme toggle removed — handled in Navbar) */}
     </div>
   );
 };

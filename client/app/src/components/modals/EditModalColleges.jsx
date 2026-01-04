@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ImageWithFallback from "../ImageWithFallback";
 import api from "../../api";
 
 const EditCollegeModal = ({ onClose, onUpdated, college }) => {
@@ -297,7 +298,7 @@ const EditCollegeModal = ({ onClose, onUpdated, college }) => {
           {/* CURRENT LOGO */}
           <div className="mb-4">
             <p className="text-sm font-medium mb-1 dark:text-white">Current Logo:</p>
-            <img
+            <ImageWithFallback
               src={college.logo}
               alt="College Logo"
               className="w-20 h-20 object-cover rounded-full border"

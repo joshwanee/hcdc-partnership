@@ -3,9 +3,9 @@ import ProfileDropdown from "./modals/ProfileDropdown";
 import api from "../api";
 
 // React icon library (lucide)
-import { User, ChevronDown } from "lucide-react";
+import { User, ChevronDown, Sun, Moon } from "lucide-react";
 
-const Navbar = ({ setSidebarOpen }) => {
+const Navbar = ({ setSidebarOpen, darkMode, setDarkMode }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const [headerTitle, setHeaderTitle] = useState("SYSTEM ADMINISTRATOR");
 
@@ -73,32 +73,48 @@ const Navbar = ({ setSidebarOpen }) => {
           {headerTitle}
         </h1>
 
-        {/* Profile Button (User icon + arrow) */}
-        <div
-          className="flex items-center gap-2 cursor-pointer select-none"
-          onClick={(e) => {
-            e.stopPropagation(); // VERY IMPORTANT
-            setOpenMenu((prev) => !prev); // toggle open/close
-          }}
-        >
-          <div
-            className="
-              w-10 h-10 flex items-center justify-center rounded-full
-              bg-gray-300 dark:bg-gray-700 
-              border border-gray-500 dark:border-gray-400
-            "
+        <div className="flex items-center">
+          {/* Theme Toggle (moved from Sidebar) */}
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="p-2 rounded-full 
+                        bg-white text-yellow-600 
+                        dark:bg-gray-900 dark:text-blue-300
+                        border border-gray-300 dark:border-gray-600
+                        shadow-md hover:shadow-lg 
+                        transition-all mr-3"
+            title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
-            <User size={20} className="text-black dark:text-white" />
-          </div>
+            {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
 
-          <ChevronDown
-            size={22}
-            className={`
-              text-black dark:text-white
-              transition-transform duration-300
-              ${openMenu ? "rotate-180" : "rotate-0"}
-            `}
-          />
+          {/* Profile Button (User icon + arrow) */}
+          <div
+            className="flex items-center gap-2 cursor-pointer select-none"
+            onClick={(e) => {
+              e.stopPropagation(); // VERY IMPORTANT
+              setOpenMenu((prev) => !prev); // toggle open/close
+            }}
+          >
+            <div
+              className="
+                w-10 h-10 flex items-center justify-center rounded-full
+                bg-gray-300 dark:bg-gray-700 
+                border border-gray-500 dark:border-gray-400
+              "
+            >
+              <User size={20} className="text-black dark:text-white" />
+            </div>
+
+            <ChevronDown
+              size={22}
+              className={`
+                text-black dark:text-white
+                transition-transform duration-300
+                ${openMenu ? "rotate-180" : "rotate-0"}
+              `}
+            />
+          </div>
         </div>
 
       </header>

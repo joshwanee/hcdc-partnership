@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children, roles }) => {
 
   // Has token but role is not allowed
   if (roles && !roles.includes(role)) {
-    return <Navigate to="/unauthorized" replace />;
+    return <Navigate to="/landing" replace />;
   }
 
   return children; 

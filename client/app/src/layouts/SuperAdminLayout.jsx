@@ -38,8 +38,6 @@ const SuperAdminLayout = () => {
       <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
       />
 
       {/* 🔥 FULL-WIDTH BACKGROUND STRIP BEHIND NAVBAR */}
@@ -55,7 +53,7 @@ const SuperAdminLayout = () => {
       <div className="flex-1 flex flex-col h-screen">
 
         {/* Navbar (always above background) */}
-        <Navbar setSidebarOpen={setSidebarOpen} />
+        <Navbar setSidebarOpen={setSidebarOpen} darkMode={darkMode} setDarkMode={setDarkMode} />
 
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto p-4 pt-20">

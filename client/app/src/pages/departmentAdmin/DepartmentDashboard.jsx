@@ -5,6 +5,7 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { motion } from "framer-motion";
 
 import EditPartnershipModal from "../../components/modals/EditPartnershipModal";
+import ImageWithFallback from "../../components/ImageWithFallback";
 import PartnershipListBox from "../../components/PartnershipListBox";
 import DeleteButton from "../../components/buttons/DeleteButton";
 import EditButton from "../../components/buttons/EditButton";
@@ -145,7 +146,7 @@ const handleDelete = async (id) => {
       transition={{ duration: 0.6 }}
       className="text-2xl font-bold"
     >
-      {department?.name} Department Dashboard
+      {department?.name}
     </motion.h1>
 
     {/* SUMMARY CARDS */}
@@ -279,7 +280,7 @@ const handleDelete = async (id) => {
                 )}
 
                 <div className="flex items-center gap-3">
-                  <img src={p.logo} className="w-16 h-16 rounded-full border object-cover" />
+                  <ImageWithFallback src={p.logo} className="w-16 h-16 rounded-full border object-cover" alt={p.title} />
                   <div>
                     <p className="font-semibold">{p.title}</p>
                     <span

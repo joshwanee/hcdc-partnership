@@ -37,8 +37,6 @@ const CollegeAdminLayout = () => {
       <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
       />
 
       <div
@@ -53,7 +51,7 @@ const CollegeAdminLayout = () => {
       <div className="flex-1 flex flex-col h-screen">
         
         {/* Shared Navbar */}
-        <Navbar setSidebarOpen={setSidebarOpen} />
+        <Navbar setSidebarOpen={setSidebarOpen} darkMode={darkMode} setDarkMode={setDarkMode} />
 
         {/* Scrollable Outlet */}
         <div className="flex-1 overflow-y-auto p-4 pt-20">

@@ -88,7 +88,7 @@ const Users = () => {
 
       {/* ⭐ TITLE + DROPDOWN ON RIGHT */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Users</h2>
+        <h2 className="text-2xl font-bold">Users</h2>
 
         <select
           value={roleFilter}

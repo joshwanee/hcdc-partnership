@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import College, Department, Partnerships, User
 from django.contrib.auth.password_validation import validate_password
+from cloudinary.utils import cloudinary_url
 
 
 class UserMiniSerializer(serializers.ModelSerializer):
@@ -68,6 +69,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
 
 class CollegeSerializer(serializers.ModelSerializer):
     class Meta:

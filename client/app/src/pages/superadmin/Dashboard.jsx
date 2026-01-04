@@ -5,6 +5,7 @@ import api from "../../api";
 import { motion } from "framer-motion";
 import { HiDotsHorizontal } from "react-icons/hi";
 import EditPartnershipModal from "../../components/modals/EditPartnershipModal";
+import ImageWithFallback from "../../components/ImageWithFallback";
 import EditButton from "../../components/buttons/EditButton";
 import DeleteButton from "../../components/buttons/DeleteButton";
 import PartnershipListBox from "../../components/PartnershipListBox";
@@ -324,7 +325,7 @@ const Dashboard = () => {
           transition={{ duration: 0.6 }}
         >
           <PartnershipListBox
-            title="⏳ Partnerships Ending This Month"
+            title="⏳ Partnerships Ending Soon"
             items={endingSoon}
             color="yellow"
             emptyMessage="No partnerships ending this month."
@@ -417,7 +418,7 @@ const Dashboard = () => {
 
                 {/* Card Content */}
                 <div className="flex items-center gap-4">
-                  <img
+                  <ImageWithFallback
                     src={p.logo}
                     className="w-16 h-16 object-cover rounded-full border dark:border-gray-600"
                     alt={p.title}

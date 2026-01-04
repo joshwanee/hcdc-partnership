@@ -8,10 +8,12 @@ const Login = ({ onClose }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
       const res = await api.post("token/", { username, password });
@@ -34,6 +36,8 @@ const Login = ({ onClose }) => {
     } catch (err) {
       console.error(err);
       setError("Invalid username or password.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -101,12 +105,21 @@ const Login = ({ onClose }) => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full py-3 text-lg font-semibold rounded-lg 
-                     bg-red-600 hover:bg-red-700 
-                     dark:bg-blue-600 dark:hover:bg-blue-700 
-                     text-white transition-all"
+          disabled={loading}
+          aria-busy={loading}
+          className={`w-full py-3 text-lg font-semibold rounded-lg bg-red-600 hover:bg-red-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white transition-all ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-          Log In
+          {loading ? (
+            <span className="flex items-center justify-center gap-2">
+              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+              </svg>
+              Logging in...
+            </span>
+          ) : (
+            'Log In'
+          )}
         </button>
 
       </form>

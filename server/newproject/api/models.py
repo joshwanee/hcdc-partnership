@@ -28,18 +28,10 @@ class College(models.Model):
     id = models.BigAutoField(primary_key= True)
     code = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=255)
-    # logo = models.ImageField(
-    #     upload_to = 'college_logos/', 
-    #     storage = MediaCloudinaryStorage(),
-    #     null = True, 
-    #     blank=True, 
-    #     default = 'college_logos/default_logo_fhrtcn.png')
     logo = models.ImageField(
-        upload_to='college_logos/',
-        null=True,
-        blank=True,
-        default='defaults/default_logo.png'
-    )
+        upload_to ='college_logos/', 
+        null = True, 
+        blank=True)
     admin = models.ForeignKey(   # 👈 Add this line
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -66,17 +58,10 @@ class Department(models.Model):
         related_name='departments')
     code = models.CharField(max_length=50)
     name = models.CharField(max_length=255)
-    # logo = models.ImageField(
-        # upload_to = 'department_logos/', 
-        # storage = MediaCloudinaryStorage(),
-        # null = True, 
-        # blank=True, 
-        # default = 'department_logos/default_logo_fhrtcn.png')
     logo = models.ImageField(
         upload_to='department_logos/',
         null=True,
-        blank=True,
-        default='defaults/default_logo.png'
+        blank=True
     )
     admin = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -120,18 +105,10 @@ class Partnerships(models.Model):
         default=STATUS_ACTIVE
     )
 
-    # logo = models.ImageField(
-    #     upload_to = 'partnership_logos/', 
-    #     storage = MediaCloudinaryStorage(),
-    #     null=True, 
-    #     blank=True, 
-    #     default = 'partnership_logos/default_logo_fhrtcn.png')
-
     logo = models.ImageField(
         upload_to='partnership_logos/',
         null=True,
-        blank=True,
-        default='defaults/default_logo.png'
+        blank=True
     )
 
     # 🔹 NEW FIELDS

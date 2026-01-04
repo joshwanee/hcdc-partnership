@@ -101,9 +101,9 @@ const Departments = () => {
 
       {/* PAGE TITLE + FILTER + ADD BUTTON */}
         <div className="flex justify-between items-start mb-4">
-          <h2 className="text-xl font-bold dark:text-white">
+          <h2 className="lg:text-2xl text-xl font-bold dark:text-white">
             {collegeId
-              ? `Departments under ${college?.name || ""}`
+              ? `${college?.name || ""}`
               : "Departments"}
           </h2>
 
@@ -117,23 +117,41 @@ const Departments = () => {
 
             {/* ⭐ College Filter (only when NOT inside a college) */}
             {!collegeId && (
-              <select
-                value={selectedCollegeFilter}
-                onChange={(e) => setSelectedCollegeFilter(e.target.value)}
-                className="
-                  p-2 border rounded
-                  bg-white dark:bg-black
-                  dark:text-white
-                  border-gray-300 dark:border-gray-600
-                "
-              >
-                <option value="ALL">All Colleges</option>
-                {colleges.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
+              <>
+                {/* MOBILE */}
+                <select
+                  className="sm:hidden 
+                  border rounded
+                  p-2 border rounded 
+                  bg-white dark:bg-black 
+                  dark:text-white 
+                  border-gray-300 dark:border-gray-600"
+                  value={selectedCollegeFilter}
+                  onChange={(e) => setSelectedCollegeFilter(e.target.value)}
+                >
+                  <option value="ALL">All Colleges</option>
+                  {colleges.map(c => (
+                    <option key={c.id} value={c.id}>{c.code}</option>
+                  ))}
+                </select>
+
+                  {/* DESKTOP */}
+                <select
+                  className="
+                  hidden sm:block
+                  p-2 border rounded 
+                  bg-white dark:bg-black 
+                  dark:text-white 
+                  border-gray-300 dark:border-gray-600"
+                  value={selectedCollegeFilter}
+                  onChange={(e) => setSelectedCollegeFilter(e.target.value)}
+                >
+                  <option value="ALL">All Colleges</option>
+                  {colleges.map(c => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </>
             )}
           </div>
         </div>

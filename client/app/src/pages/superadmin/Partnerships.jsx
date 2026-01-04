@@ -99,14 +99,28 @@ const Partnerships = () => {
     filtered = filtered.filter((p) => p.department === Number(selectedDept));
   }
 
+  function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  return isMobile;
+}
+
+  const isMobile = useIsMobile();
+
   return (
     <div className="p-6 dark:text-white">
 
       {/* HEADER */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold dark:text-white">
+        <h2 className="lg:text-2xl text-xl font-bold dark:text-white">
           {departmentId
-            ? `Partnerships under ${departmentName}`
+            ? `${departmentName}`
             : "Partnerships"}
         </h2>
 
@@ -118,7 +132,7 @@ const Partnerships = () => {
 
       {/* ⭐ FILTER CONTROLS (Only in superadmin table view) */}
       {!departmentId && (
-        <div className="flex items-center gap-3 justify-end mb-4">
+        <div className="flex flex-wrap items-center gap-3 justify-end mb-4">
 
           {/* COLLEGE DROPDOWN */}
           <select
@@ -132,12 +146,14 @@ const Partnerships = () => {
               bg-white dark:bg-black 
               dark:text-white 
               border-gray-300 dark:border-gray-600
+              text-sm
             "
           >
             <option value="ALL">All Colleges</option>
+
             {colleges.map((c) => (
               <option key={c.id} value={c.id}>
-                {c.name}
+                {isMobile ? c.code : c.name}
               </option>
             ))}
           </select>
@@ -152,6 +168,7 @@ const Partnerships = () => {
               bg-white dark:bg-black 
               dark:text-white 
               border-gray-300 dark:border-gray-600
+              text-sm
               ${selectedCollege === "ALL" ? "opacity-50 cursor-not-allowed" : ""}
             `}
           >
@@ -161,12 +178,13 @@ const Partnerships = () => {
               .filter((d) => d.college === Number(selectedCollege))
               .map((d) => (
                 <option key={d.id} value={d.id}>
-                  {d.name}
+                  {isMobile ? d.code : d.name}
                 </option>
               ))}
           </select>
         </div>
       )}
+
 
       {/* ⭐ MODE 1: DATATABLE */}
       {!departmentId && (

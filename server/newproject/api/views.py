@@ -5,6 +5,7 @@ from rest_framework.response import Response
 
 from django.db.models import Count
 from django.db.models.functions import TruncMonth, TruncYear
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import College, Department, Partnerships, User
 from .serializers import CollegeSerializer, DepartmentSerializer, PartnershipsSerializer, UserSerializer, GuestUserSerializer
@@ -25,6 +26,7 @@ class GuestRegisterViewSet(viewsets.ModelViewSet):
 class CollegeViewSet(viewsets.ModelViewSet):
     queryset = College.objects.all()
     serializer_class = CollegeSerializer
+    parser_classes = (MultiPartParser, FormParser)
     permission_classes = [IsGuestOrReadOnly | IsSuperAdmin | IsCollegeAdmin]
 
     def get_queryset(self):

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ImageWithFallback from "../ImageWithFallback";
 import api from "../../api";
 
 const EditDepartmentModal = ({ onClose, onUpdated, department }) => {
@@ -271,7 +272,7 @@ const EditDepartmentModal = ({ onClose, onUpdated, department }) => {
 
             <div className="mt-3">
               <p className="text-sm font-medium mb-1">Current Logo:</p>
-              <img
+              <ImageWithFallback
                 src={department.logo}
                 className="w-20 h-20 object-cover rounded-full border"
                 alt="Dept logo"

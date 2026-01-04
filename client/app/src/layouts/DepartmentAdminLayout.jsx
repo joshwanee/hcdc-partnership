@@ -37,8 +37,6 @@ const DepartmentAdminLayout = () => {
       <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
       />
 
       <div
@@ -51,7 +49,7 @@ const DepartmentAdminLayout = () => {
 
       <div className="flex-1 flex flex-col h-screen">
         
-        <Navbar setSidebarOpen={setSidebarOpen} />
+        <Navbar setSidebarOpen={setSidebarOpen} darkMode={darkMode} setDarkMode={setDarkMode} />
 
         <div className="flex-1 overflow-y-auto p-15 dark:bg-gray-900">
 

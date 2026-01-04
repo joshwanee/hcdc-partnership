@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ImageWithFallback from "../ImageWithFallback";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "../../api";
 
@@ -76,7 +77,7 @@ const ShowPartnership = ({ department, onClose }) => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <img
+                  <ImageWithFallback
                     src={p.logo}
                     alt={p.title}
                     className="w-32 h-32 object-cover rounded-lg shadow-sm mb-4"

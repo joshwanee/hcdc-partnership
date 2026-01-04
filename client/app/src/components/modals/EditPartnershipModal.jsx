@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ImageWithFallback from "../ImageWithFallback";
 import api from "../../api";
 
 const EditPartnershipModal = ({ onClose, onUpdated, partnership }) => {
@@ -11,7 +12,7 @@ const EditPartnershipModal = ({ onClose, onUpdated, partnership }) => {
   const [contactPerson, setContactPerson] = useState(partnership.contact_person || "");
   const [contactEmail, setContactEmail] = useState(partnership.contact_email || "");
   const [contactPhone, setContactPhone] = useState(partnership.contact_phone || "");
-  const [phoneType, setPhoneType] = useState("cell"); // Added phone type state
+  const [phoneType, setPhoneType] = useState(partnership.phone_type || "cell"); // Added phone type state
   const [dateStarted, setDateStarted] = useState(partnership.date_started || "");
   const [dateEnded, setDateEnded] = useState(partnership.date_ended || "");
 
@@ -33,6 +34,46 @@ const EditPartnershipModal = ({ onClose, onUpdated, partnership }) => {
 
     return null;
   };
+
+  // Ensure only digits and enforce max length based on phoneType
+  const handlePhoneChange = (value) => {
+    const digits = value.replace(/\D/g, "");
+    const max = phoneType === "cell" ? 11 : 10;
+    setContactPhone(digits.slice(0, max));
+  };
+
+  // Trim contactPhone if phoneType changes to a smaller max
+  useEffect(() => {
+    const max = phoneType === "cell" ? 11 : 10;
+    if (contactPhone.length > max) {
+      setContactPhone(contactPhone.slice(0, max));
+    }
+  }, [phoneType]);
+
+  // Sanitize initial contactPhone (remove non-digits, enforce max)
+  useEffect(() => {
+    if (!contactPhone) return;
+    const digits = contactPhone.replace(/\D/g, "");
+    const max = phoneType === "cell" ? 11 : 10;
+    const newVal = digits.slice(0, max);
+    if (newVal !== contactPhone) setContactPhone(newVal);
+    // Auto-detect phone type from initial number length
+    if (digits.length === 11) {
+      setPhoneType("cell");
+    } else if (digits.length > 0) {
+      setPhoneType("telephone");
+    }
+  }, []);
+
+  // Auto-adjust phoneType while editing based on digits length
+  useEffect(() => {
+    const digits = (contactPhone || "").replace(/\D/g, "");
+    if (digits.length === 11 && phoneType !== "cell") {
+      setPhoneType("cell");
+    } else if (digits.length > 0 && digits.length <= 10 && phoneType !== "telephone") {
+      setPhoneType("telephone");
+    }
+  }, [contactPhone]);
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -188,7 +229,7 @@ const EditPartnershipModal = ({ onClose, onUpdated, partnership }) => {
             {/* CURRENT LOGO */}
             <div className="mb-3">
               <p className="text-sm font-semibold mb-1">Current Logo:</p>
-              <img
+              <ImageWithFallback
                 src={partnership.logo}
                 alt="Partnership Logo"
                 className="w-20 h-20 object-cover rounded-full border"
@@ -224,18 +265,6 @@ const EditPartnershipModal = ({ onClose, onUpdated, partnership }) => {
               />
             </label>
 
-            {/* CONTACT PHONE */}
-            <label className="block mb-4">
-              <span className="text-sm font-medium">Contact Phone</span>
-              <input
-                type="text"
-                className="w-full border p-2 rounded-lg mt-1
-                  bg-white dark:bg-[#2C2C2E] dark:text-white dark:border-[#3A3A3C]"
-                value={contactPhone}
-                onChange={(e) => setContactPhone(e.target.value)}
-              />
-            </label>
-
             {/* PHONE TYPE SELECTION */}
             <label className="block mb-4">
               <span className="text-sm font-medium">Phone Type</span>
@@ -248,6 +277,21 @@ const EditPartnershipModal = ({ onClose, onUpdated, partnership }) => {
                 <option value="cell">Cell Phone</option>
                 <option value="telephone">Telephone</option>
               </select>
+            </label>
+
+            {/* CONTACT PHONE */}
+            <label className="block mb-4">
+              <span className="text-sm font-medium">Contact Phone</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={phoneType === "cell" ? 11 : 10}
+                className="w-full border p-2 rounded-lg mt-1
+                  bg-white dark:bg-[#2C2C2E] dark:text-white dark:border-[#3A3A3C]"
+                value={contactPhone}
+                onChange={(e) => handlePhoneChange(e.target.value)}
+              />
             </label>
 
             {/* DATE STARTED */}

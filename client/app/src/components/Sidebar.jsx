@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Sidebar = ({ sidebarOpen, setSidebarOpen, darkMode, setDarkMode }) => {
+const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   // Get stored role
   const role = localStorage.getItem("role");
@@ -87,30 +87,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, darkMode, setDarkMode }) => {
         ))}
       </div>
 
-      {/* DARK MODE TOGGLE */}
-      <div className="p-4 border-t border-gray-300 dark:border-[#1a1a1a]">
-        {darkMode ? (
-          <button
-            className="w-full p-2 rounded-md bg-[#111111] text-white hover:bg-[#1F1F1F] transition"
-            onClick={() => {
-              setDarkMode(false);
-              document.documentElement.classList.remove("dark");
-            }}
-          >
-            ☀️ Light Mode
-          </button>
-        ) : (
-          <button
-            className="w-full p-2 rounded-md bg-black text-white hover:bg-[#222222] transition"
-            onClick={() => {
-              setDarkMode(true);
-              document.documentElement.classList.add("dark");
-            }}
-          >
-            🌙 Dark Mode
-          </button>
-        )}
-      </div>
+      {/* (Theme toggle removed — handled in Navbar) */}
     </div>
   );
 };

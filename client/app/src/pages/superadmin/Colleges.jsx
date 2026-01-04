@@ -67,7 +67,7 @@ const Colleges = () => {
     <div className="p-6 dark:text-white">
             {/* PAGE HEADER */}
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold dark:text-white">Colleges</h2>
+                <h2 className="text-2xl font-bold dark:text-white">Colleges</h2>
 
                 {/* ADD BUTTON */}
                 <AddButton label="Add College" onClick={() => setShowAddModal(true)} />

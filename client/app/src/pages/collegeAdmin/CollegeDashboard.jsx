@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { HiDotsHorizontal } from "react-icons/hi";
 
 import EditPartnershipModal from "../../components/modals/EditPartnershipModal";
+import ImageWithFallback from "../../components/ImageWithFallback";
 import EditButton from "../../components/buttons/EditButton";
 import DeleteButton from "../../components/buttons/DeleteButton";
 import PartnershipListBox from "../../components/PartnershipListBox";
@@ -298,7 +299,7 @@ useEffect(() => {
         College Admin Dashboard
       </h1>
       <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
-        Overview for your college — shows departments, partnerships, users and recent activity.
+        Overview for your college — shows departments, partnerships and recent activity.
       </p>
 
       {/* TOP STATS */}
@@ -317,12 +318,12 @@ useEffect(() => {
 
         <div className="bg-red-100 dark:bg-blue-900 shadow-lg rounded-xl p-6 text-center">
           <p className="text-red-700 dark:text-blue-200 text-lg font-semibold">Partnerships</p>
-          <p className="text-4xl font-bold mt-2 text-green-600 dark:text-green-400">{stats.partnerships}</p>
+          <p className="text-4xl font-bold mt-2 text-red-800 dark:text-blue-100">{stats.partnerships}</p>
         </div>
 
         <div className="bg-red-100 dark:bg-blue-900 shadow-lg rounded-xl p-6 text-center">
           <p className="text-red-700 dark:text-blue-200 text-lg font-semibold">Active Partnerships</p>
-          <p className="text-4xl font-bold mt-2 text-red-800 dark:text-blue-100">{stats.active_partnerships}</p>
+          <p className="text-4xl font-bold mt-2 text-green-600  dark:text-green-400">{stats.active_partnerships}</p>
         </div>
 
         <div className="bg-red-100 dark:bg-blue-900 shadow-lg rounded-xl p-6 text-center">
@@ -509,7 +510,7 @@ useEffect(() => {
 
                 {/* Card Content */}
                 <div className="flex items-center gap-4">
-                  <img
+                  <ImageWithFallback
                     src={p.logo}
                     className="w-16 h-16 object-cover rounded-full border dark:border-gray-600"
                     alt={p.title}

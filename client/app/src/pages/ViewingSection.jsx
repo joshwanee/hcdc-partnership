@@ -1,5 +1,6 @@
 // Updated ViewingSection with dark/light themes + improved scroll animations
 import React, { useState, useEffect } from "react";
+import ImageWithFallback from "../components/ImageWithFallback";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "../api";
 import ShowPartnership from "../components/modals/ShowPartnership";
@@ -129,7 +130,7 @@ const ViewingSection = () => {
                     viewport={{ once: false, amount: 0.4 }}
                     className="flex flex-col items-center"
                   >
-                    <img
+                    <ImageWithFallback
                       src={college.logo}
                       className="w-60 h-60 rounded-full object-cover shadow-lg mx-auto"
                       alt={college.name}
@@ -203,7 +204,7 @@ const ViewingSection = () => {
                     viewport={{ once: false, amount: 0.4 }}
                     className="flex flex-col items-center"
                   >
-                    <img
+                    <ImageWithFallback
                       src={college.logo}
                       className="w-60 h-60 rounded-full object-cover shadow-lg mx-auto"
                       alt={college.name}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../api";
 
 const AddPartnershipModal = ({ onClose, onAdded, departmentId, departments }) => {
@@ -35,6 +35,21 @@ const AddPartnershipModal = ({ onClose, onAdded, departmentId, departments }) =>
 
     return null;
   };
+
+  // Ensure only digits and enforce max length based on phoneType
+  const handlePhoneChange = (value) => {
+    const digits = value.replace(/\D/g, "");
+    const max = phoneType === "cell" ? 11 : 10;
+    setContactPhone(digits.slice(0, max));
+  };
+
+  // Trim contactPhone if phoneType changes to a smaller max
+  useEffect(() => {
+    const max = phoneType === "cell" ? 11 : 10;
+    if (contactPhone.length > max) {
+      setContactPhone(contactPhone.slice(0, max));
+    }
+  }, [phoneType]);
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -257,21 +272,7 @@ const AddPartnershipModal = ({ onClose, onAdded, departmentId, departments }) =>
               />
             </label>
 
-            {/* Contact Phone */}
-            <label className="block mb-4">
-              <span className="text-sm font-medium">Contact Phone</span>
-              <input
-                type="text"
-                className="
-                  w-full border p-2 rounded-lg mt-1
-                  bg-white dark:bg-[#2C2C2E] dark:text-white dark:border-[#3A3A3C]
-                "
-                value={contactPhone}
-                onChange={(e) => setContactPhone(e.target.value)}
-              />
-            </label>
-
-            {/* Phone Type Selection */}
+            {/* PHONE TYPE SELECTION */}
             <label className="block mb-4">
               <span className="text-sm font-medium">Phone Type</span>
               <select
@@ -285,6 +286,23 @@ const AddPartnershipModal = ({ onClose, onAdded, departmentId, departments }) =>
                 <option value="cell">Cell Phone</option>
                 <option value="telephone">Telephone</option>
               </select>
+            </label>
+
+            {/* Contact Phone */}
+            <label className="block mb-4">
+              <span className="text-sm font-medium">Contact Phone</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={phoneType === "cell" ? 11 : 10}
+                className="
+                  w-full border p-2 rounded-lg mt-1
+                  bg-white dark:bg-[#2C2C2E] dark:text-white dark:border-[#3A3A3C]
+                "
+                value={contactPhone}
+                onChange={(e) => handlePhoneChange(e.target.value)}
+              />
             </label>
 
             {/* Date Started */}

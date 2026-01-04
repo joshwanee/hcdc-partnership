@@ -12,6 +12,7 @@ __pycache__/
 *.pyc
 db.sqlite3
 media/
+college_logos/
 
 # Virtual Environment
 venv/

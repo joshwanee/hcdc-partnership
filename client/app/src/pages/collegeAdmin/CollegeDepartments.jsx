@@ -68,7 +68,7 @@ const CollegeDepartments = () => {
       {/* HEADER */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold dark:text-white">
-          Departments in <span className="text-blue-600 dark:text-blue-400">{collegeName}</span>
+          Departments in <span className="text-red-600 dark:text-blue-400">{collegeName}</span>
         </h2>
 
         <AddButton

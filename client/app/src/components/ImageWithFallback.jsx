@@ -1,18 +1,18 @@
 import { useState } from "react";
+import noImage from "../assets/no-image.webp";
 
-export default function ImageWithFallback({ src, alt, className }) {
+export default function ImageWithFallback({ src, alt, className, ...rest }) {
   const [error, setError] = useState(false);
+
+  const resolved = !error && src ? src : noImage;
 
   return (
     <img
-      src={
-        !error
-          ? src
-          : "https://via.placeholder.com/800x600?text=Image+Unavailable"
-      }
-      alt={alt}
+      src={resolved}
+      alt={alt || "no-image"}
       className={className}
       onError={() => setError(true)}
+      {...rest}
     />
   );
 }
