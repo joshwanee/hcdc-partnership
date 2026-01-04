@@ -33,7 +33,7 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 if DEBUG:
     ALLOWED_HOSTS = []
 else:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app", ".onrender.com", "hcdc-partnership.onrender.com"]
 
 
 # Corsheaders settings
@@ -42,6 +42,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # React development server
     "http://127.0.0.1:5173",
+    "https://hcdc-partnership.vercel.app",
+    "https://hcdc-partnership.onrender.com"
 ]
 
 
