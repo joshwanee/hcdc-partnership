@@ -44,7 +44,7 @@ const ViewingSection = () => {
       })
     );
 
-    setColleges(finalData);
+    setColleges([...finalData].reverse());
     setLoading(false);
   };
 
