@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../../api";
+import { FiUpload } from "react-icons/fi";
 
 const AddDepartmentModal = ({ onClose, onAdded, collegeId, colleges }) => {
   const [name, setName] = useState("");
@@ -223,14 +224,51 @@ const AddDepartmentModal = ({ onClose, onAdded, collegeId, colleges }) => {
             )}
 
             <label className="block mb-4">
-              <span className="text-sm font-medium">Department Logo</span>
-              <input
-                type="file"
-                accept="image/*"
-                className="mt-2 text-sm"
-                onChange={(e) => setLogo(e.target.files[0])}
-              />
+              <span className="text-sm font-medium">Department Logo <span className="text-xs text-gray-500">(Optional)</span></span>
+
+              <label
+                className="
+                  mt-2 group flex flex-col items-center justify-center
+                  w-full p-4
+                  border-2 border-dashed rounded-xl cursor-pointer
+                  border-red-400 dark:border-blue-500
+                  bg-red-50/50 dark:bg-blue-950/40
+                  hover:bg-red-100/70 dark:hover:bg-blue-900/60
+                  transition-all duration-300
+                "
+              >
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => setLogo(e.target.files[0])}
+                />
+
+                <FiUpload
+                  className="
+                    text-3xl
+                    text-red-600 dark:text-blue-400
+                    group-hover:scale-110
+                    transition-transform
+                  "
+                />
+
+                <p className="mt-2 text-sm font-semibold text-red-700 dark:text-blue-300">
+                  Click to upload department logo
+                </p>
+
+                <p className="text-xs text-gray-600 dark:text-gray-400">
+                  Please use WEBP format for better performance.
+                </p>
+              </label>
+
+              {logo && (
+                <p className="mt-2 text-xs text-green-600 dark:text-green-400">
+                  Selected: {logo.name}
+                </p>
+              )}
             </label>
+
           </div>
 
           {/* RIGHT COLUMN */}

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../../api";
+import { FiUpload } from "react-icons/fi";
+
 
 const AddPartnershipModal = ({ onClose, onAdded, departmentId, departments }) => {
   const [title, setTitle] = useState("");
@@ -230,14 +232,49 @@ const AddPartnershipModal = ({ onClose, onAdded, departmentId, departments }) =>
 
             {/* Logo */}
             <label className="block mb-4">
-              <span className="text-sm font-medium">Partnership Logo</span>
-              <input
-                type="file"
-                accept="image/*"
-                className="mt-1"
-                onChange={(e) => setLogo(e.target.files[0])}
-              />
+              <span className="text-sm font-medium">
+                Partnership Logo <span className="text-xs text-gray-500">(Optional)</span>
+              </span>
+
+              <label
+                className="
+                  mt-1 flex flex-col items-center gap-3
+                  w-full p-2.5
+                  border-2 border-dashed rounded-lg cursor-pointer
+                  border-red-400 dark:border-blue-500
+                  bg-red-50/40 dark:bg-blue-950/30
+                  hover:bg-red-100/60 dark:hover:bg-blue-900/50
+                  transition-all duration-300
+                "
+              >
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => setLogo(e.target.files[0])}
+                />
+
+                <div className="flex flex-row items-center gap-1">
+                  <FiUpload className="text-lg flex text-red-600 dark:text-blue-400" />
+
+                  <span className="flex text-sm text-red-700 dark:text-blue-300">
+                  Upload logo
+                </span>
+                </div>
+
+                
+                <p className="text-xs text-gray-600 dark:text-gray-400">
+                  Please use WEBP format for better performance.
+                </p>
+              </label>
+
+              {logo && (
+                <p className="mt-1 text-xs text-green-600 dark:text-green-400 truncate">
+                  {logo.name}
+                </p>
+              )}
             </label>
+
           </div>
 
           {/* Right Column */}

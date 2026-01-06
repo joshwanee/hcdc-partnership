@@ -1,10 +1,12 @@
 import { useState } from "react";
 import api from "../../api";
+import { FiUpload } from "react-icons/fi";
 
 const AddCollegeModal = ({ onClose, onAdded }) => {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [logo, setLogo] = useState(null);
+  const [logoPreview, setLogoPreview] = useState(null);
 
   // Admin fields
   const [adminUsername, setAdminUsername] = useState("");
@@ -190,17 +192,62 @@ const AddCollegeModal = ({ onClose, onAdded }) => {
             />
           </label>
 
-          <label className="block mb-4">
-            <span className="text-sm font-medium dark:text-white">
-              College Logo
-            </span>
-            <input
-              type="file"
-              accept="image/*"
-              className="mt-2 text-sm"
-              onChange={(e) => setLogo(e.target.files[0])}
-            />
-          </label>
+          <label className="block mb-6">
+  <span className="text-sm font-medium dark:text-white">
+    College Logo <span className="text-xs text-gray-500">(Optional)</span>
+  </span>
+
+  <div className="mt-2">
+    <label
+      className="
+        group flex flex-col items-center justify-center
+        w-full max-w-sm p-5
+        border-2 border-dashed rounded-xl cursor-pointer
+        border-red-400 dark:border-blue-400
+        bg-red-50/50 dark:bg-blue-950/40
+        hover:bg-red-100/70 dark:hover:bg-blue-900/60
+        transition-all duration-300
+      "
+    >
+      <input
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          setLogo(file);
+          setLogoPreview(URL.createObjectURL(file));
+        }}
+      />
+
+      {logoPreview ? (
+        <>
+          <img
+            src={logoPreview}
+            alt="Selected logo"
+            className="w-28 h-28 rounded-full object-cover shadow-md"
+          />
+          <p className="mt-2 text-xs text-green-600 dark:text-green-400">
+            {logo.name}
+          </p>
+        </>
+      ) : (
+        <>
+          <FiUpload className="text-4xl text-red-600 dark:text-blue-400" />
+          <p className="mt-2 text-sm font-semibold text-red-700 dark:text-blue-300">
+            Click to upload image
+          </p>
+          <p className="text-xs text-gray-600 dark:text-gray-400">
+            Please use WEBP format for better performance.
+          </p>
+        </>
+      )}
+    </label>
+  </div>
+</label>
+
+
         </div>
 
         {/* Right Section */}

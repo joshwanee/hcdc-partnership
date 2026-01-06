@@ -44,7 +44,10 @@ const ViewingSection = () => {
       })
     );
 
-    setColleges([...finalData].reverse());
+    setColleges(finalData);
+    // setColleges(
+    //   [...finalData].sort((a, b) => a.id - b.id)
+    // );
     setLoading(false);
   };
 
