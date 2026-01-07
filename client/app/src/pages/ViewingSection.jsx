@@ -10,49 +10,47 @@ const ViewingSection = () => {
   const [loading, setLoading] = useState(true);
   const [selectedDept, setSelectedDept] = useState(null);
 
-  useEffect(() => {
+useEffect(() => {
   const loadData = async () => {
+    try {
+      setLoading(true);
 
-    // Get ALL colleges (public)
-    const collegesRes = await api.get("/viewing/colleges/");
-    const collegesData = collegesRes.data;
+      const collegesRes = await api.get("/viewing/colleges/");
+      const collegesData = collegesRes.data;
 
-    // Get ALL departments (public)
-    const deptRes = await api.get("/viewing/departments/");
-    const allDepartments = deptRes.data;
+      const deptRes = await api.get("/viewing/departments/");
+      const allDepartments = deptRes.data;
 
-    const finalData = await Promise.all(
-      collegesData.map(async (college) => {
-        
-        // Filter departments belonging to this college
-        const departmentsUnderCollege = allDepartments.filter(
-          (dept) => dept.college === college.id
-        );
+      const finalData = await Promise.all(
+        collegesData.map(async (college) => {
+          const departmentsUnderCollege = allDepartments.filter(
+            (dept) => dept.college === college.id
+          );
 
-        // Fetch partnerships for each department
-        const departmentsWithPartnerships = await Promise.all(
-          departmentsUnderCollege.map(async (dept) => {
-            const partnersRes = await api.get(`/viewing/partnerships/?department=${dept.id}`);
-            return { ...dept, partnerships: partnersRes.data };
-          })
-        );
+          const departmentsWithPartnerships = await Promise.all(
+            departmentsUnderCollege.map(async (dept) => {
+              const partnersRes = await api.get(
+                `/viewing/partnerships/?department=${dept.id}`
+              );
+              return { ...dept, partnerships: partnersRes.data };
+            })
+          );
 
-        return {
-          ...college,
-          departments: departmentsWithPartnerships,
-        };
-      })
-    );
+          return { ...college, departments: departmentsWithPartnerships };
+        })
+      );
 
-    setColleges(finalData);
-    // setColleges(
-    //   [...finalData].sort((a, b) => a.id - b.id)
-    // );
-    setLoading(false);
+      setColleges(finalData);
+    } catch (error) {
+      console.error("Failed to load viewing data", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   loadData();
 }, []);
+
 
 
   const handleDeptClick = async (dept) => {
@@ -71,6 +69,24 @@ const ViewingSection = () => {
     partnerships: res.data,
   });
 };
+
+if (loading) {
+  return (
+    <div className="w-full min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 px-6 text-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 dark:border-blue-500 mb-4" />
+
+      <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+        Loading HCDC Partnerships
+      </h2>
+
+      <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 max-w-md">
+        Our server is waking up due to cold start.  
+        This may take a few seconds. Please wait…
+      </p>
+    </div>
+  );
+}
+
 
 
   return (

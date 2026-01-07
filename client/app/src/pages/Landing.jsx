@@ -80,8 +80,8 @@ export default function PublicViewPage() {
         <ViewingSection />
       </div>
 
-      <footer className="w-full flex-shrink-0 bg-[#af0b00] dark:bg-blue-900">
-        <div className="max-w-6xl mx-auto px-4 py-6 text-center">
+       <footer className="w-full flex-shrink-0 bg-[#af0b00] dark:bg-blue-900">
+        <div className="max-w-6xl mx-auto px-4 py-4 text-center">
           <p className="text-sm text-white/90 dark:text-gray-300">
             © {new Date().getFullYear()} HCDC Partnership Management System
           </p>
