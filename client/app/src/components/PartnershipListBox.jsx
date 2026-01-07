@@ -23,7 +23,7 @@ const PartnershipListBox = ({
 
   return (
     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow w-full">
-      <h2 className="text-xl font-bold mb-4 dark:text-gray-100">{title}</h2>
+      <h2 className="text-xl font-bold mb-4 text-red-700 dark:text-blue-200">{title}</h2>
 
       {items.length === 0 ? (
         <p className="opacity-70 dark:text-gray-300">{emptyMessage}</p>

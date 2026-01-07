@@ -21,6 +21,7 @@ const EditPartnershipModal = ({ onClose, onUpdated, partnership }) => {
 
   // Phone number validation function
   const validatePhoneNumber = (phone) => {
+    if(!phone) return null; // Allow empty phone number
     const cellPhoneRegex = /^[0-9]{11}$/;  // Cell phone (e.g., 09123456789)
     const telPhoneRegex = /^[0-9]{7,10}$/; // Telephone (e.g., 2123456)
 

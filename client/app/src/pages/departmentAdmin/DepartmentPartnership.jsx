@@ -51,7 +51,7 @@ const DepartmentPartnerships = () => {
         <h2 className="text-xl font-bold dark:text-white">Your Partnerships</h2>
 
         <AddButton
-              label="Add Department"
+              label="Add Partnership"
               onClick={() => setShowAddModal(true)}
         />
       </div>

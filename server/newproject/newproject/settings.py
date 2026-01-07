@@ -32,6 +32,8 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app", ".onrender.com", "hcdc-partnership.onrender.com"]
 
+# ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
 
 # Corsheaders settings
 # Remove or set to False in production

@@ -24,6 +24,7 @@ const AddPartnershipModal = ({ onClose, onAdded, departmentId, departments }) =>
 
   // Phone number validation function
   const validatePhoneNumber = (phone) => {
+    if(!phone) return null; // Allow empty phone number
     const cellPhoneRegex = /^[0-9]{11}$/;  // Cell phone (e.g., 09123456789)
     const telPhoneRegex = /^[0-9]{7,10}$/; // Telephone (e.g., 2123456)
     
@@ -332,6 +333,7 @@ const AddPartnershipModal = ({ onClose, onAdded, departmentId, departments }) =>
                 type="text"
                 inputMode="numeric"
                 pattern="[0-9]*"
+                required={false}
                 maxLength={phoneType === "cell" ? 11 : 10}
                 className="
                   w-full border p-2 rounded-lg mt-1

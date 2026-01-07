@@ -3,6 +3,7 @@ import api from "../../api";
 
 import { HiDotsHorizontal } from "react-icons/hi";
 import { motion } from "framer-motion";
+import { useOutletContext } from "react-router-dom";
 
 import EditPartnershipModal from "../../components/modals/EditPartnershipModal";
 import ImageWithFallback from "../../components/ImageWithFallback";
@@ -32,6 +33,11 @@ const STATUS_COLORS = {
 const DepartmentDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const departmentId = user?.department;
+  const { darkMode } = useOutletContext();
+
+  const strokeColor = darkMode ? "#3b82f6" : "#ef4444";
+  const textColor = darkMode ? "#ffffff" : "#374151";
+  const barColor = darkMode ? "#3b82f6" : "#ef4444";
 
   const [department, setDepartment] = useState(null);
   const [partnerships, setPartnerships] = useState([]);
@@ -183,13 +189,13 @@ const handleDelete = async (id) => {
       transition={{ duration: 0.6 }}
       className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow"
     >
-      <h2 className="text-xl font-bold mb-4">📈 Partnerships Growth Over Time</h2>
+      <h2 className="text-xl font-bold mb-4 text-red-700 dark:text-blue-200">📈 Partnerships Growth Over Time</h2>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={growth}>
-          <XAxis dataKey="month" />
-          <YAxis />
+          <XAxis tick={{ fill: textColor }} dataKey="month" />
+          <YAxis tick={{ fill: textColor }} />
           <Tooltip />
-          <Line type="monotone" stroke="#3b82f6" dataKey="count" strokeWidth={3} />
+          <Line type="monotone" stroke={strokeColor} dataKey="count" strokeWidth={3} />
         </LineChart>
       </ResponsiveContainer>
     </motion.div>
@@ -206,7 +212,7 @@ const handleDelete = async (id) => {
         transition={{ duration: 0.6 }}
         className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow w-full"
       >
-        <h2 className="text-xl font-bold mb-4">📊 Partnership Status Distribution</h2>
+        <h2 className="text-xl font-bold mb-4 text-red-700 dark:text-blue-200">📊 Partnership Status Distribution</h2>
 
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>
@@ -237,7 +243,7 @@ const handleDelete = async (id) => {
         transition={{ duration: 0.6 }}
         className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow w-full"
       >
-        <h2 className="text-xl font-bold mb-4">🆕 Latest Partnerships</h2>
+        <h2 className="text-xl font-bold mb-4 text-red-700 dark:text-blue-200">🆕 Latest Partnerships</h2>
 
         {latestThree.length === 0 ? (
           <p className="opacity-70">No partnerships available.</p>

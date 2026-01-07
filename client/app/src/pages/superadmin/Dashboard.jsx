@@ -247,7 +247,7 @@ const Dashboard = () => {
         transition={{ duration: 0.6 }}
         className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow"
       >
-        <h2 className="text-xl font-semibold mb-4 text-red-700 dark:text-blue-200">
+        <h2 className="text-xl font-bold mb-4 text-red-700 dark:text-blue-200">
           📈 Growth of Partnerships Over Time
         </h2>
         <ResponsiveContainer width="100%" height={300}>
@@ -279,7 +279,7 @@ const Dashboard = () => {
           transition={{ duration: 0.6 }}
           className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow"
         >
-          <h2 className="text-xl font-semibold mb-4 text-red-700 dark:text-blue-200">
+          <h2 className="text-xl font-bold mb-4 text-red-700 dark:text-blue-200">
             🧮 Users by Role
           </h2>
           <ResponsiveContainer width="100%" height={300}>
@@ -303,7 +303,7 @@ const Dashboard = () => {
           transition={{ duration: 0.6 }}
           className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow"
         >
-          <h2 className="text-xl font-semibold mb-4 text-red-700 dark:text-blue-200">
+          <h2 className="text-xl font-bold mb-4 text-red-700 dark:text-blue-200">
             🏛️ Top 5 Colleges With Most Partnerships
           </h2>
           <ResponsiveContainer width="100%" height={300}>
@@ -362,7 +362,7 @@ const Dashboard = () => {
         transition={{ duration: 0.6 }}
         className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow w-full"
       >
-        <h2 className="text-xl font-semibold mb-4 text-red-700 dark:text-blue-200">
+        <h2 className="text-xl font-bold mb-4 text-red-700 dark:text-blue-200">
           🆕 Latest Partnerships Added
         </h2>
 

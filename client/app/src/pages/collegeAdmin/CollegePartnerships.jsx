@@ -93,7 +93,7 @@ const CollegePartnerships = () => {
         </h2>
 
         <AddButton
-              label="Add Department"
+              label="Add Partnership"
               onClick={() => setShowAddModal(true)}
         />
       </div>
