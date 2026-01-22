@@ -1,5 +1,5 @@
 import { useState } from "react";
-import noImage from "../assets/no-image.webp";
+import noImage from "../assets/no_image.webp";
 
 export default function ImageWithFallback({ src, alt, className, ...rest }) {
   const [error, setError] = useState(false);
