@@ -7,7 +7,7 @@ class Command(BaseCommand):
     help = "Creates a default Super Admin if not existing."
 
     def handle(self, *args, **options):
-        username = "superadmin"
+        username = "superadmin2"
         email = "superadmin@example.com"
 
         # Use an environment variable for the password, or generate a random one for production
