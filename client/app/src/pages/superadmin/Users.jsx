@@ -70,7 +70,7 @@ const Users = () => {
   // ⭐ FILTERING LOGIC
   const filteredUsers = users.filter((u) => {
     // Exclude SUPER_ADMIN users
-    if (u.role === "SUPER_ADMIN") return false;
+    if (u.role === "SUPERADMIN") return false;
     if (roleFilter === "ALL") return true;
     return u.role === roleFilter;
   });
