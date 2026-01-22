@@ -9,7 +9,7 @@ export default function ImageWithFallback({ src, alt, className, ...rest }) {
   return (
     <img
       src={resolved}
-      alt={alt || "no-image"}
+      alt={alt || "no_image"}
       className={className}
       onError={() => setError(true)}
       {...rest}
