@@ -8,6 +8,7 @@ import DataTable from "../../components/ui/DataTable";
 import EditPartnershipModal from "../../components/modals/EditPartnershipModal";
 import AddPartnershipModal from "../../components/modals/AddPartnershipModal";
 import AddButton from "../../components/buttons/AddButton";
+import SystemResponse from "../../components/modals/SystemResponse";
 
 const CollegePartnerships = () => {
   const location = useLocation();
@@ -20,6 +21,9 @@ const CollegePartnerships = () => {
   const [selectedPartnership, setSelectedPartnership] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+
+  // System response state
+  const [systemResponse, setSystemResponse] = useState(null);
 
   // Logged-in college admin
   const user = JSON.parse(localStorage.getItem("user"));
@@ -76,8 +80,10 @@ const CollegePartnerships = () => {
     try {
       await api.delete(`partnerships/${partnerId}/`);
       loadPartnerships();
+      setSystemResponse({ message: "Partnership deleted successfully", type: "success" });
     } catch (err) {
       console.error("Delete failed", err);
+      setSystemResponse({ message: "Failed to delete partnership", type: "error" });
     }
   };
 
@@ -143,7 +149,10 @@ const CollegePartnerships = () => {
         <EditPartnershipModal
           partnership={selectedPartnership}
           onClose={() => setShowEditModal(false)}
-          onUpdated={loadPartnerships}
+          onUpdated={() => {
+            loadPartnerships();
+            setSystemResponse({ message: "Partnership updated successfully", type: "success" });
+          }}
         />
       )}
 
@@ -153,7 +162,19 @@ const CollegePartnerships = () => {
           departmentId={departmentId || null}
           departments={departmentId ? [] : departments}
           onClose={() => setShowAddModal(false)}
-          onAdded={loadPartnerships}
+          onAdded={() => {
+            loadPartnerships();
+            setSystemResponse({ message: "Partnership added successfully", type: "success" });
+          }}
+        />
+      )}
+
+      {/* System Response */}
+      {systemResponse && (
+        <SystemResponse
+          message={systemResponse.message}
+          type={systemResponse.type}
+          onClose={() => setSystemResponse(null)}
         />
       )}
     </div>

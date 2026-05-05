@@ -1,12 +1,14 @@
 import { useState } from "react";
 import api from "../../api";
 import { FiUpload } from "react-icons/fi";
+import SystemResponse from "./SystemResponse";
 
 const AddCollegeModal = ({ onClose, onAdded }) => {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [logo, setLogo] = useState(null);
   const [logoPreview, setLogoPreview] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   // Admin fields
   const [adminUsername, setAdminUsername] = useState("");
@@ -81,11 +83,11 @@ const AddCollegeModal = ({ onClose, onAdded }) => {
       // CHANGE: Update the admin user to associate with the college
       await api.patch(`users/${adminId}/`, { college: collegeId });
 
-      onAdded();
-      onClose();
+      onAdded(); 
 
     } catch (err) {
       console.error("Failed to add college", err);
+      setBackendError("Failed to add college.");
 
       // 🔥 Catch backend validation errors (like "This password is too common.")
       if (err.response && err.response.data) {
@@ -111,6 +113,15 @@ const AddCollegeModal = ({ onClose, onAdded }) => {
   };
 
   return (
+<>
+      {notification && (
+        <SystemResponse 
+          message={notification.message} 
+          type={notification.type} 
+          onClose={() => setNotification(null)} 
+        />
+      )}
+    
   <div
     className="
       fixed inset-0 
@@ -369,6 +380,7 @@ const AddCollegeModal = ({ onClose, onAdded }) => {
       </div>
     </div>
   </div>
+  </>
 );
 
 };

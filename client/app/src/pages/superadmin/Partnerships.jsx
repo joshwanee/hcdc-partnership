@@ -7,6 +7,7 @@ import AddPartnershipModal from "../../components/modals/AddPartnershipModal";
 import AddButton from "../../components/buttons/AddButton";
 import GridCard from "../../components/ui/GridCard";
 import DataTable from "../../components/ui/DataTable";
+import SystemResponse from "../../components/modals/SystemResponse";
 
 const Partnerships = () => {
   const [partnerships, setPartnerships] = useState([]);
@@ -21,6 +22,9 @@ const Partnerships = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  // System response state
+  const [systemResponse, setSystemResponse] = useState(null);
 
   // ⭐ NEW FILTER STATES
   const [selectedCollege, setSelectedCollege] = useState("ALL");
@@ -77,8 +81,10 @@ const Partnerships = () => {
     try {
       await api.delete(`partnerships/${id}/`);
       loadPartnerships();
+      setSystemResponse({ message: "Partnership deleted successfully", type: "success" });
     } catch (err) {
       console.error("Delete failed", err);
+      setSystemResponse({ message: "Failed to delete partnership", type: "error" });
     }
   };
 
@@ -229,7 +235,10 @@ const Partnerships = () => {
         <EditPartnershipModal
           partnership={selectedPartnership}
           onClose={() => setShowEditModal(false)}
-          onUpdated={loadPartnerships}
+          onUpdated={() => {
+            loadPartnerships();
+            setSystemResponse({ message: "Partnership updated successfully", type: "success" });
+          }}
         />
       )}
 
@@ -238,7 +247,19 @@ const Partnerships = () => {
           departmentId={departmentId || null}
           departments={departments}
           onClose={() => setShowAddModal(false)}
-          onAdded={loadPartnerships}
+          onAdded={() => {
+            loadPartnerships();
+            setSystemResponse({ message: "Partnership added successfully", type: "success" });
+          }}
+        />
+      )}
+
+      {/* System Response */}
+      {systemResponse && (
+        <SystemResponse
+          message={systemResponse.message}
+          type={systemResponse.type}
+          onClose={() => setSystemResponse(null)}
         />
       )}
     </div>

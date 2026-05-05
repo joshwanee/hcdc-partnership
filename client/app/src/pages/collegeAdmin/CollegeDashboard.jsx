@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router-dom";
 import api from "../../api";
 import { motion, useInView } from "framer-motion";
 import { HiDotsHorizontal } from "react-icons/hi";
+import { MdTrendingUp, MdPeople, MdSchool, MdSchedule, MdCancel, MdNewReleases, MdBusinessCenter, MdHandshake } from "react-icons/md";
 
 import EditPartnershipModal from "../../components/modals/EditPartnershipModal";
 import ImageWithFallback from "../../components/ImageWithFallback";
@@ -46,6 +47,53 @@ const CollegeAdminDashboard = () => {
   const textColor = darkMode ? "#e2e8f0" : "#374151";
   const barColor = darkMode ? "#3b82f6" : "#ef4444";
   const COLORS = ["#ef4444", "#3b82f6", "#22c55e", "#eab308"];
+
+  const cardConfigs = {
+    departments: {
+      color: '#10b981',
+      lightBg: 'bg-white',
+      darkBg: 'bg-gray-800',
+      icon: MdBusinessCenter,
+      lightText: 'text-green-700',
+      darkText: 'text-green-200',
+      lightValue: 'text-green-800',
+      darkValue: 'text-green-100',
+      glow: '0 0 10px rgba(16, 185, 129, 0.3)',
+    },
+    partnerships: {
+      color: '#f59e0b',
+      lightBg: 'bg-white',
+      darkBg: 'bg-gray-800',
+      icon: MdHandshake,
+      lightText: 'text-amber-700',
+      darkText: 'text-amber-200',
+      lightValue: 'text-amber-800',
+      darkValue: 'text-amber-100',
+      glow: '0 0 10px rgba(245, 158, 11, 0.3)',
+    },
+    active_partnerships: {
+      color: '#f59e0b',
+      lightBg: 'bg-white',
+      darkBg: 'bg-gray-800',
+      icon: MdHandshake,
+      lightText: 'text-amber-700',
+      darkText: 'text-amber-200',
+      lightValue: 'text-amber-800',
+      darkValue: 'text-amber-100',
+      glow: '0 0 10px rgba(245, 158, 11, 0.3)',
+    },
+    users: {
+      color: '#8b5cf6',
+      lightBg: 'bg-white',
+      darkBg: 'bg-gray-800',
+      icon: MdPeople,
+      lightText: 'text-purple-700',
+      darkText: 'text-purple-200',
+      lightValue: 'text-purple-800',
+      darkValue: 'text-purple-100',
+      glow: '0 0 10px rgba(139, 92, 246, 0.3)',
+    },
+  };
 
   // framer motion variant
   const fadeInUp = {
@@ -283,6 +331,12 @@ useEffect(() => {
 
     const lastFiveExpired = expired.slice(0, 5);
 
+  const statItems = [
+    { key: 'departments', label: 'Departments', value: stats.departments },
+    { key: 'partnerships', label: 'Partnerships', value: stats.partnerships },
+    { key: 'active_partnerships', label: 'Active Partnerships', value: stats.active_partnerships },
+    { key: 'users', label: 'Users', value: stats.users },
+  ];
 
   if (loading) {
     return (
@@ -311,25 +365,28 @@ useEffect(() => {
         transition={{ duration: 0.6 }}
         className="grid grid-cols-1 md:grid-cols-4 gap-4"
       >
-        <div className="bg-red-100 dark:bg-blue-900 shadow-lg rounded-xl p-6 text-center">
-          <p className="text-red-700 dark:text-blue-200 text-lg font-semibold">Departments</p>
-          <p className="text-4xl font-bold mt-2 text-red-800 dark:text-blue-100">{stats.departments}</p>
-        </div>
-
-        <div className="bg-red-100 dark:bg-blue-900 shadow-lg rounded-xl p-6 text-center">
-          <p className="text-red-700 dark:text-blue-200 text-lg font-semibold">Partnerships</p>
-          <p className="text-4xl font-bold mt-2 text-red-800 dark:text-blue-100">{stats.partnerships}</p>
-        </div>
-
-        <div className="bg-red-100 dark:bg-blue-900 shadow-lg rounded-xl p-6 text-center">
-          <p className="text-red-700 dark:text-blue-200 text-lg font-semibold">Active Partnerships</p>
-          <p className="text-4xl font-bold mt-2 text-green-600  dark:text-green-400">{stats.active_partnerships}</p>
-        </div>
-
-        <div className="bg-red-100 dark:bg-blue-900 shadow-lg rounded-xl p-6 text-center">
-          <p className="text-red-700 dark:text-blue-200 text-lg font-semibold">Users</p>
-          <p className="text-4xl font-bold mt-2 text-red-800 dark:text-blue-100">{stats.users}</p>
-        </div>
+        {statItems.map((item, index) => {
+          const config = cardConfigs[item.key];
+          const IconComponent = config.icon;
+          return (
+            <div
+              key={index}
+              className={`${config.lightBg} dark:${config.darkBg} shadow-lg rounded-xl p-6 text-center transition-all`}
+              style={{
+                borderTop: `5px solid ${config.color}`,
+                boxShadow: darkMode ? `0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), ${config.glow}` : undefined,
+              }}
+            >
+              <div className="flex items-center justify-center mb-2">
+                <IconComponent className={`text-2xl mr-2 ${config.lightText} dark:${config.darkText}`} />
+                <p className={`${config.lightText} dark:${config.darkText} text-lg font-semibold`}>{item.label}</p>
+              </div>
+              <p className={`text-4xl font-bold mt-2 ${config.lightValue} dark:${config.darkValue}`}>
+                {item.value}
+              </p>
+            </div>
+          );
+        })}
       </motion.div>
 
       {/* Growth Chart */}
@@ -342,7 +399,7 @@ useEffect(() => {
         transition={{ duration: 0.8 }}
         className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow"
       >
-        <h2 className="text-xl font-semibold mb-4 text-red-700 dark:text-blue-200">📈 Growth of Partnerships Over Time</h2>
+        <h2 className="text-xl font-semibold mb-4 text-red-700 dark:text-blue-200 flex items-center gap-2"><MdTrendingUp /> Growth of Partnerships Over Time</h2>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={growth}>
             <XAxis dataKey="month" tick={{ fill: textColor }} />
@@ -368,7 +425,7 @@ useEffect(() => {
           transition={{ duration: 0.6 }}
           className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow"
         >
-          <h2 className="text-xl font-semibold mb-4 text-red-700 dark:text-blue-200">🧮 Users by Role</h2>
+          <h2 className="text-xl font-semibold mb-4 text-red-700 dark:text-blue-200 flex items-center gap-2"><MdPeople /> Users by Role</h2>
           {userRoles.length === 0 ? (
             <p className="text-sm text-gray-500 dark:text-gray-400">No users found for this college.</p>
           ) : (
@@ -392,7 +449,7 @@ useEffect(() => {
           transition={{ duration: 0.6 }}
           className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow"
         >
-          <h2 className="text-xl font-semibold mb-4 text-red-700 dark:text-blue-200">🏛️ Top Departments</h2>
+          <h2 className="text-xl font-semibold mb-4 text-red-700 dark:text-blue-200 flex items-center gap-2"><MdSchool /> Top Departments</h2>
           {topDepartments.length === 0 ? (
             <p className="text-sm text-gray-500 dark:text-gray-400">No partnership data yet.</p>
           ) : (
@@ -416,7 +473,7 @@ useEffect(() => {
           transition={{ duration: 0.6 }}
         >
           <PartnershipListBox
-            title="⏳ Partnerships Ending This Month"
+            title={<><MdSchedule /> Partnerships Ending This Month</>}
             items={endingSoon}
             color="yellow"
             emptyMessage="No partnerships ending this month."
@@ -433,7 +490,7 @@ useEffect(() => {
           transition={{ duration: 0.6 }}
         >
           <PartnershipListBox
-            title="❌ Recently Expired Partnerships"
+            title={<><MdCancel /> Recently Expired Partnerships</>}
             items={lastFiveExpired}
             color="red"
             emptyMessage="No expired partnerships."
@@ -452,8 +509,8 @@ useEffect(() => {
         transition={{ duration: 0.6 }}
         className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow w-full"
       >
-        <h2 className="text-xl font-semibold mb-4 text-red-700 dark:text-blue-200">
-          🆕 Latest Partnerships
+        <h2 className="text-xl font-semibold mb-4 text-red-700 dark:text-blue-200 flex items-center gap-2">
+          <MdNewReleases /> Latest Partnerships
         </h2>
 
         {latest.length === 0 ? (

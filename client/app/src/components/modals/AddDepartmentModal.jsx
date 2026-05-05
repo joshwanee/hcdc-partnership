@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../../api";
 import { FiUpload } from "react-icons/fi";
+import SystemResponse from "./SystemResponse";
 
 const AddDepartmentModal = ({ onClose, onAdded, collegeId, colleges }) => {
   const [name, setName] = useState("");
@@ -17,6 +18,8 @@ const AddDepartmentModal = ({ onClose, onAdded, collegeId, colleges }) => {
   const [passwordError, setPasswordError] = useState("");
   const [backendError, setBackendError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const [toast, setToast] = useState({ show: false, message: "", type: "error" });
 
   // PASSWORD VALIDATION
   const validatePassword = (value, confirmValue = adminConfirmPassword) => {
@@ -103,7 +106,9 @@ const AddDepartmentModal = ({ onClose, onAdded, collegeId, colleges }) => {
       onAdded(deptRes.data);
       onClose();
     } catch (err) {
-      console.error("Failed to add department", err);
+      const errorMsg = err.response?.data?.detail || "Something went wrong.";
+      setToast({ show: true, message: errorMsg, type: "error" });
+      setBackendError(errorMsg);
 
       if (err.response && err.response.data) {
         const backendErrors = err.response.data;
@@ -128,6 +133,15 @@ const AddDepartmentModal = ({ onClose, onAdded, collegeId, colleges }) => {
   };
 
   return (
+    <>
+    {toast.show && (
+      <SystemResponse 
+        message={toast.message} 
+        type={toast.type} 
+        onClose={() => setToast({ ...toast, show: false })} 
+      />
+    )}
+
     <div
       className="
         fixed inset-0 bg-black/40 dark:bg-black/60 
@@ -376,6 +390,7 @@ const AddDepartmentModal = ({ onClose, onAdded, collegeId, colleges }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

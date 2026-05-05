@@ -8,14 +8,21 @@ import EditCollegeModal from "../../components/modals/EditModalColleges";
 import AddCollegeModal from "../../components/modals/AddCollegeModal";
 import AddButton from "../../components/buttons/AddButton";
 
+import SystemResponse from "../../components/modals/SystemResponse";
+
 const Colleges = () => {
   const [colleges, setColleges] = useState([]);
   const [menuOpen, setMenuOpen] = useState(null);
   const [selectedCollege, setSelectedCollege] = useState(null);
+  const [notification, setNotification] = useState(null);
   const navigate = useNavigate();
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+
+  const triggerNotify = (message, type = "success") => {
+    setNotification({ message, type });
+  };
 
   const loadColleges = () => {
     api.get("colleges/").then((res) => setColleges(res.data));
@@ -57,14 +64,24 @@ const Colleges = () => {
     try {
       await api.delete(`colleges/${collegeId}/`);
       setColleges((prev) => prev.filter((c) => c.id !== collegeId));
+      triggerNotify("College deleted successfully", "success");
       loadColleges();
     } catch (err) {
-      console.error("Delete failed", err);
+      triggerNotify("Failed to delete college", "error");
     }
   };
 
   return (
     <div className="p-6 dark:text-white">
+
+      {/* 1. Global System Response */}
+      {notification && (
+        <SystemResponse 
+          message={notification.message} 
+          type={notification.type} 
+          onClose={() => setNotification(null)} 
+        />
+      )}
             {/* PAGE HEADER */}
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold dark:text-white">Colleges</h2>
@@ -105,8 +122,15 @@ const Colleges = () => {
       {/* ADD MODAL */}
       {showAddModal && (
         <AddCollegeModal
-          onClose={() => setShowAddModal(false)}
-          onAdded={loadColleges}
+            onClose={() => setShowAddModal(false)}
+            onAdded={() => {
+          loadColleges(); // Refresh the list
+          setShowAddModal(false); // Close the modal first
+          // Wrap in a tiny timeout to ensure the modal is gone before the toast pops
+          setTimeout(() => {
+            triggerNotify("New College successfully added!", "success");
+          }, 100);
+        }}
         />
       )}
     </div>

@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import api from "../../api";
 
 import { HiDotsHorizontal } from "react-icons/hi";
+import { MdTrendingUp, MdNewReleases, MdSchedule, MdCancel, MdHandshake } from "react-icons/md";
 import { motion } from "framer-motion";
 import { useOutletContext } from "react-router-dom";
 
@@ -52,6 +53,42 @@ const DepartmentDashboard = () => {
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
+  };
+
+  const cardConfigs = {
+    total_partnerships: {
+      color: '#f59e0b',
+      lightBg: 'bg-white',
+      darkBg: 'bg-gray-800',
+      icon: MdHandshake,
+      lightText: 'text-amber-700',
+      darkText: 'text-amber-200',
+      lightValue: 'text-amber-800',
+      darkValue: 'text-amber-100',
+      glow: '0 0 10px rgba(245, 158, 11, 0.3)',
+    },
+    active: {
+      color: '#10b981',
+      lightBg: 'bg-white',
+      darkBg: 'bg-gray-800',
+      icon: MdHandshake,
+      lightText: 'text-green-700',
+      darkText: 'text-green-200',
+      lightValue: 'text-green-800',
+      darkValue: 'text-green-100',
+      glow: '0 0 10px rgba(16, 185, 129, 0.3)',
+    },
+    inactive: {
+      color: '#ef4444',
+      lightBg: 'bg-white',
+      darkBg: 'bg-gray-800',
+      icon: MdHandshake,
+      lightText: 'text-red-700',
+      darkText: 'text-red-200',
+      lightValue: 'text-red-800',
+      darkValue: 'text-red-100',
+      glow: '0 0 10px rgba(239, 68, 68, 0.3)',
+    },
   };
 
   const loadData = async () => {
@@ -138,6 +175,12 @@ const handleDelete = async (id) => {
   }
 };
 
+  const statItems = [
+    { key: 'total_partnerships', label: 'Total Partnerships', value: total },
+    { key: 'active', label: 'Active', value: active },
+    { key: 'inactive', label: 'Inactive', value: inactive },
+  ];
+
 
 
   return (
@@ -164,20 +207,28 @@ const handleDelete = async (id) => {
       transition={{ duration: 0.6 }}
       className="grid grid-cols-2 md:grid-cols-3 gap-6"
     >
-      <div className="p-6 rounded-xl shadow bg-white dark:bg-gray-800 border-l-4 border-red-600">
-        <h3 className="text-sm uppercase opacity-70">Total Partnerships</h3>
-        <p className="text-3xl font-bold mt-2">{total}</p>
-      </div>
-
-      <div className="p-6 rounded-xl shadow bg-white dark:bg-gray-800 border-l-4 border-green-600">
-        <h3 className="text-sm uppercase opacity-70">Active</h3>
-        <p className="text-3xl font-bold mt-2">{active}</p>
-      </div>
-
-      <div className="p-6 rounded-xl shadow bg-white dark:bg-gray-800 border-l-4 border-orange-500">
-        <h3 className="text-sm uppercase opacity-70">Inactive</h3>
-        <p className="text-3xl font-bold mt-2">{inactive}</p>
-      </div>
+      {statItems.map((item, index) => {
+        const config = cardConfigs[item.key];
+        const IconComponent = config.icon;
+        return (
+          <div
+            key={index}
+            className={`${config.lightBg} dark:${config.darkBg} shadow-lg rounded-xl p-6 text-center transition-all`}
+            style={{
+              borderTop: `5px solid ${config.color}`,
+              boxShadow: darkMode ? `0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), ${config.glow}` : undefined,
+            }}
+          >
+            <div className="flex items-center justify-center mb-2">
+              <IconComponent className={`text-2xl mr-2 ${config.lightText} dark:${config.darkText}`} />
+              <h3 className={`${config.lightText} dark:${config.darkText} text-sm uppercase opacity-70`}>{item.label}</h3>
+            </div>
+            <p className={`text-3xl font-bold mt-2 ${config.lightValue} dark:${config.darkValue}`}>
+              {item.value}
+            </p>
+          </div>
+        );
+      })}
     </motion.div>
 
     {/* GROWTH CHART */}
@@ -189,7 +240,7 @@ const handleDelete = async (id) => {
       transition={{ duration: 0.6 }}
       className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow"
     >
-      <h2 className="text-xl font-bold mb-4 text-red-700 dark:text-blue-200">📈 Partnerships Growth Over Time</h2>
+      <h2 className="text-xl font-bold mb-4 text-red-700 dark:text-blue-200 flex items-center gap-2"><MdTrendingUp /> Partnerships Growth Over Time</h2>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={growth}>
           <XAxis tick={{ fill: textColor }} dataKey="month" />
@@ -243,7 +294,7 @@ const handleDelete = async (id) => {
         transition={{ duration: 0.6 }}
         className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow w-full"
       >
-        <h2 className="text-xl font-bold mb-4 text-red-700 dark:text-blue-200">🆕 Latest Partnerships</h2>
+        <h2 className="text-xl font-bold mb-4 text-red-700 dark:text-blue-200 flex items-center gap-2"><MdNewReleases /> Latest Partnerships</h2>
 
         {latestThree.length === 0 ? (
           <p className="opacity-70">No partnerships available.</p>
@@ -318,7 +369,7 @@ const handleDelete = async (id) => {
         className="grid lg:grid-cols-2 lg:col-span-2 gap-6"
       >
         <PartnershipListBox
-          title="⏳ Partnerships Ending Soon"
+          title={<><MdSchedule /> Partnerships Ending Soon</>}
           items={endingSoon}
           emptyMessage="No partnerships ending within 30 days."
           color="yellow"
@@ -327,7 +378,7 @@ const handleDelete = async (id) => {
         />
 
         <PartnershipListBox
-          title="❌ Recently Expired Partnerships"
+          title={<><MdCancel /> Recently Expired Partnerships</>}
           items={lastFiveExpired}
           emptyMessage="No expired partnerships."
           color="red"

@@ -8,6 +8,7 @@ import AddDepartmentModal from "../../components/modals/AddDepartmentModal";
 import AddButton from "../../components/buttons/AddButton";
 import GridCard from "../../components/ui/GridCard";
 import DataTable from "../../components/ui/DataTable";
+import SystemResponse from "../../components/modals/SystemResponse";
 
 const Departments = () => {
   const { collegeId } = useParams();
@@ -17,6 +18,8 @@ const Departments = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const [systemMsg, setSystemMsg] = useState({ show: false, message: "", type: "success" });
+
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -24,8 +27,12 @@ const Departments = () => {
   // ⭐ NEW college filter state (superadmin view)
   const [selectedCollegeFilter, setSelectedCollegeFilter] = useState("ALL");
 
+  const triggerToast = (message, type = "success") => {
+    setSystemMsg({ show: true, message, type });
+  };
+
   // ⭐ Load Departments + Colleges
-  const loadDepartments = async () => {
+  const loadDepartments = async (newData) => {
     setLoading(true);
 
     try {
@@ -33,6 +40,10 @@ const Departments = () => {
         // MODE 2: Inside a specific college
         const res = await api.get(`departments/?college=${collegeId}`);
         setDepartments(res.data);
+
+        if (newData && newData.id) {
+        triggerToast("Department added successfully!");
+      }
       } else {
         // MODE 1: Superadmin all departments
         const [deptRes, collegeRes] = await Promise.all([
@@ -81,9 +92,10 @@ const Departments = () => {
     if (!window.confirm("Delete this department?")) return;
     try {
       await api.delete(`departments/${deptId}/`);
+      triggerToast("Department deleted successfully!", "success");
       loadDepartments();
     } catch (err) {
-      console.error("Delete failed", err);
+      triggerToast("Failed to delete department.", "error");
     }
   };
 
@@ -98,6 +110,14 @@ const Departments = () => {
 
   return (
     <div className="p-6 dark:text-white">
+      {/* Render Toast */}
+      {systemMsg.show && (
+        <SystemResponse
+          message={systemMsg.message}
+          type={systemMsg.type}
+          onClose={() => setSystemMsg({ ...systemMsg, show: false })}
+        />
+      )}
 
       {/* PAGE TITLE + FILTER + ADD BUTTON */}
         <div className="flex justify-between items-start mb-4">
@@ -201,7 +221,10 @@ const Departments = () => {
           collegeId={collegeId}
           colleges={colleges}
           onClose={() => setShowAddModal(false)}
-          onAdded={loadDepartments}
+          onAdded={(newData) => {
+            setShowAddModal(false); // Close modal first
+            loadDepartments(newData); // Pass data to trigger success toast
+          }}
         />
       )}
     </div>

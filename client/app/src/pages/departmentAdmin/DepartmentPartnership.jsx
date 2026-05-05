@@ -5,6 +5,7 @@ import GridCard from "../../components/ui/GridCard";
 import AddPartnershipModal from "../../components/modals/AddPartnershipModal";
 import EditPartnershipModal from "../../components/modals/EditPartnershipModal";
 import AddButton from "../../components/buttons/AddButton";
+import SystemResponse from "../../components/modals/SystemResponse";
 
 const DepartmentPartnerships = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -14,6 +15,9 @@ const DepartmentPartnerships = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selected, setSelected] = useState(null);
+
+  // System response state
+  const [systemResponse, setSystemResponse] = useState(null);
 
   const loadPartnerships = async () => {
     try {
@@ -39,8 +43,10 @@ const DepartmentPartnerships = () => {
     try {
       await api.delete(`/partnerships/${id}/`);
       loadPartnerships();
+      setSystemResponse({ message: "Partnership deleted successfully", type: "success" });
     } catch (err) {
       console.error("Delete failed", err);
+      setSystemResponse({ message: "Failed to delete partnership", type: "error" });
     }
   };
 
@@ -80,7 +86,10 @@ const DepartmentPartnerships = () => {
           departmentId={departmentId}
           departments={[{ id: departmentId }]} // locked to this department
           onClose={() => setShowAddModal(false)}
-          onAdded={loadPartnerships}
+          onAdded={() => {
+            loadPartnerships();
+            setSystemResponse({ message: "Partnership added successfully", type: "success" });
+          }}
         />
       )}
 
@@ -88,7 +97,19 @@ const DepartmentPartnerships = () => {
         <EditPartnershipModal
           partnership={selected}
           onClose={() => setShowEditModal(false)}
-          onUpdated={loadPartnerships}
+          onUpdated={() => {
+            loadPartnerships();
+            setSystemResponse({ message: "Partnership updated successfully", type: "success" });
+          }}
+        />
+      )}
+
+      {/* System Response */}
+      {systemResponse && (
+        <SystemResponse
+          message={systemResponse.message}
+          type={systemResponse.type}
+          onClose={() => setSystemResponse(null)}
         />
       )}
     </div>
